@@ -25,10 +25,40 @@ scheuled to run daily, or so. This script will do the following:
 
 '''
 
+import pandas as pd
+import numpy as np
+
 def main():
 
     #print 'hello world'
 
+    url_database = fetch_url_database()
+    print 'url_database opened'
 
+    print url_database
+
+
+
+    # save_url_database(url_database)
+    # print 'url_database saved'
+
+
+
+def new_url_database():
+
+    # fetches 'url_database.csv' as read and write and returns pandas db
+    url_database = pd.DataFrame(np.nan, index=[], columns=['URL', 'ID', 'Date', 'Title', 'Author'])
+    url_database = url_database.fillna(0)
+    return url_database
+
+def fetch_url_database():
+
+    # fetches 'url_database.csv' as read and write and returns pandas db
+    url_database = pd.read_csv('url_database.csv')
+    return url_database
+
+def save_url_database(url_database):
+    # saves the pandas database as a csv in the same directory
+    url_database.to_csv("url_database.csv", encoding='utf-8', index=False)
 
 main()
