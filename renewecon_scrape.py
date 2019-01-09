@@ -17,7 +17,7 @@ scheuled to run daily, or so. This script will do the following:
 - Access the RenewEconomy homepage --> DONE
 - Scrape the page --> DONE
 - Search and store for artile links --> DONE
-- Cross reference searching for new articles
+- Cross reference searching for new articles --> DONE
 - Go through list of new articls and open web page:
 - Scarpe the page
 - Parse the article text
@@ -47,10 +47,46 @@ def main():
     # print url_list
     print 'urls of articles collected'
 
+    new_urls = check_new_urls(url_list, url_database)
+    # print new_urls
+    print 'new urls collected from main page'
+
+    save_new_articles(new_urls)
+    print 'articles saved as HTML files in pages_ folder'
+
 
 
     # save_url_database(url_database)
     # print 'url_database saved'
+
+def get_filename(url):
+    # Extractes the URL, current date, url_ID and title, it then
+    # places it in a list to be returned
+
+    return url.split('/')[3]
+
+def save_new_articles(new_urls):
+
+    # This function takes a list of URLs and parses and stores them
+    for url in new_urls:
+        file_name = get_filename(url)
+        print file_name
+        file_name = 'pages_/' + file_name + '.html'
+        response = requests.get(url)
+        soup = BeautifulSoup(response.text, 'lxml') #parse the HTML as a string
+        with open(file_name, 'w') as file:
+            file.write(str(soup))
+
+
+def check_new_urls(url_list, url_database):
+
+    # This function will check any URLs found on the main page of RenewEconomy
+    # against the already saved URLs previously stored
+
+    old_urls = url_database['URL'].tolist()
+    new_urls = list(set(url_list) - set(old_urls))
+
+    return new_urls
 
 def search_soup_urls(soup):
 
