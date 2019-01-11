@@ -18,10 +18,11 @@ scheuled to run daily, or so. This script will do the following:
 - Scrape the page --> DONE
 - Search and store for artile links --> DONE
 - Cross reference searching for new articles --> DONE
-- Go through list of new articls and open web page:
-- Scarpe the page
-- Parse the article text
+- Go through list of new articls and open web page --> DONE
+- Scarpe the page --> DONE
+- Parse the article text --> DONE
 - Save the article text and meta data
+- Record the saving of any new articles
 
 '''
 
@@ -29,7 +30,7 @@ import pandas as pd
 import numpy as np
 import requests
 from bs4 import BeautifulSoup
-
+import datetime
 
 def main():
 
@@ -51,13 +52,19 @@ def main():
     # print new_urls
     print 'new urls collected from main page'
 
-    save_new_articles(new_urls)
+    new_urls = new_urls[:1] # This is to reduce runtime during debugging
+    saved_urls = save_new_articles(new_urls)
+    # print saved_urls
     print 'articles saved as HTML files in pages_ folder'
 
 
 
     # save_url_database(url_database)
     # print 'url_database saved'
+
+def save_urls_to_db(saved_urls, url_database):
+    # adds a new line to the url_database with the info attached
+    pass
 
 def get_filename(url):
     # Extractes the URL, current date, url_ID and title, it then
@@ -68,15 +75,36 @@ def get_filename(url):
 def save_new_articles(new_urls):
 
     # This function takes a list of URLs and parses and stores them
+    saved_urls = []
     for url in new_urls:
-        file_name = get_filename(url)
-        print file_name
-        file_name = 'pages_/' + file_name + '.html'
-        response = requests.get(url)
-        soup = BeautifulSoup(response.text, 'lxml') #parse the HTML as a string
-        with open(file_name, 'w') as file:
-            file.write(str(soup))
+        try:
+            file_name = url.split('/')[3]
+            url_title = file_name
+            print 'saving ' + file_name
+            file_name = 'pages_/' + file_name + '.html'
+            response = requests.get(url)
+            soup = BeautifulSoup(response.text, 'lxml') #parse the HTML as a string
+            url_author = get_author(soup)
+            url_date = datetime.datetime.now().date()
+            with open(file_name, 'w') as file:
+                file.write(str(soup))
+            saved_urls.append(url)
+            # save_url_to_db(url, url_date, url_title, url_author)
+            print (url, url_date, url_title, url_author)
+        except:
+            print 'failed to save ' + url
 
+    return saved_urls
+
+'''
+THIS IS UNFINISHED
+To do: Extract the author from Soup
+'''
+def get_author(soup):
+    # print soup
+    author_str = (str(soup.find_all(class_="author-link")))
+    author = author_str.split('rel="author">')[1][2:-5]
+    return author
 
 def check_new_urls(url_list, url_database):
 
