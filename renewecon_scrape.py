@@ -24,6 +24,9 @@ scheuled to run daily, or so. This script will do the following:
 - Save the article text and meta data --> DONE
 - Record the saving of any new articles --> DONE
 
+TODO:
+- Set this script to run on a crontab once per day
+
 '''
 
 import pandas as pd
@@ -55,7 +58,7 @@ def main():
     # new_urls = new_urls[:1] # This is to reduce runtime during debugging
     saved_urls = save_new_articles(new_urls, url_database)
     # print saved_urls
-    print url_database
+    # print url_database
     print 'articles saved as HTML pages_, meta data saved in url_database.csv'
 
 
@@ -126,7 +129,8 @@ def search_soup_urls(soup):
     # The function returns a list of all URLs found.
     # The funtion isloate_urls takes the string from the soup and isoloates
     # the urls.
-    # Example url: 'https://reneweconomy.com.au/all-we-want-for-christmas-four-disruptors-share-their-2019-energy-policy-wishes-61100'
+    # Example url: 'https://reneweconomy.com.au/all-we-want-for-christmas-four-
+    # disruptors-share-their-2019-energy-policy-wishes-61100'
     url_list = []
     soup = str(soup)
     strings = soup.split()
