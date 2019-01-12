@@ -21,8 +21,8 @@ scheuled to run daily, or so. This script will do the following:
 - Go through list of new articls and open web page --> DONE
 - Scarpe the page --> DONE
 - Parse the article text --> DONE
-- Save the article text and meta data
-- Record the saving of any new articles
+- Save the article text and meta data --> DONE
+- Record the saving of any new articles --> DONE
 
 '''
 
@@ -52,10 +52,11 @@ def main():
     # print new_urls
     print 'new urls collected from main page'
 
-    new_urls = new_urls[:1] # This is to reduce runtime during debugging
-    saved_urls = save_new_articles(new_urls)
+    # new_urls = new_urls[:1] # This is to reduce runtime during debugging
+    saved_urls = save_new_articles(new_urls, url_database)
     # print saved_urls
-    print 'articles saved as HTML files in pages_ folder'
+    print url_database
+    print 'articles saved as HTML pages_, meta data saved in url_database.csv'
 
 
 
@@ -72,7 +73,7 @@ def get_filename(url):
 
     return url.split('/')[3]
 
-def save_new_articles(new_urls):
+def save_new_articles(new_urls, url_database):
 
     # This function takes a list of URLs and parses and stores them
     saved_urls = []
@@ -89,21 +90,23 @@ def save_new_articles(new_urls):
             with open(file_name, 'w') as file:
                 file.write(str(soup))
             saved_urls.append(url)
-            # save_url_to_db(url, url_date, url_title, url_author)
-            print (url, url_date, url_title, url_author)
+            save_meta_data(url_database, url, str(url_date), url_title, url_author)
         except:
             print 'failed to save ' + url
 
     return saved_urls
 
-'''
-THIS IS UNFINISHED
-To do: Extract the author from Soup
-'''
+def save_meta_data(url_database, url, url_date, url_title, url_author):
+    # save the meta data to the url_database
+
+    info = [url, str(url_date), url_title, url_author]
+    url_database.loc[(len(url_database.index))] = info
+    save_url_database(url_database)
+
 def get_author(soup):
     # print soup
     author_str = (str(soup.find_all(class_="author-link")))
-    author = author_str.split('rel="author">')[1][2:-5]
+    author = author_str.split('rel="author">')[1][2:-6]
     return author
 
 def check_new_urls(url_list, url_database):
