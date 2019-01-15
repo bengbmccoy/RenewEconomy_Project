@@ -35,7 +35,14 @@ import requests
 from bs4 import BeautifulSoup
 import datetime
 
+# DEFAULT_RANK = np.nan
+# The defaul rank is the rank that is stored when the article is newly downloaded and
+# unread,
+
 def main():
+
+    global DEFAULT_RANK
+    DEFAULT_RANK = np.nan
 
     #print 'hello world'
 
@@ -57,29 +64,17 @@ def main():
 
     # new_urls = new_urls[:1] # This is to reduce runtime during debugging
     saved_urls = save_new_articles(new_urls, url_database)
-    # print saved_urls
-    # print url_database
+    print saved_urls
     print 'articles saved as HTML pages_, meta data saved in url_database.csv'
-
-
 
     # save_url_database(url_database)
     # print 'url_database saved'
-
-def save_urls_to_db(saved_urls, url_database):
-    # adds a new line to the url_database with the info attached
-    pass
-
-def get_filename(url):
-    # Extractes the URL, current date, url_ID and title, it then
-    # places it in a list to be returned
-
-    return url.split('/')[3]
 
 def save_new_articles(new_urls, url_database):
 
     # This function takes a list of URLs and parses and stores them
     saved_urls = []
+    # new_urls = new_urls[:4]
     for url in new_urls:
         try:
             file_name = url.split('/')[3]
@@ -92,17 +87,17 @@ def save_new_articles(new_urls, url_database):
             url_date = datetime.datetime.now().date()
             with open(file_name, 'w') as file:
                 file.write(str(soup))
+            save_meta_data(url_database, url, str(url_date), url_title, url_author, DEFAULT_RANK)
             saved_urls.append(url)
-            save_meta_data(url_database, url, str(url_date), url_title, url_author)
         except:
             print 'failed to save ' + url
 
     return saved_urls
 
-def save_meta_data(url_database, url, url_date, url_title, url_author):
+def save_meta_data(url_database, url, url_date, url_title, url_author, DEFAULT_RANK):
     # save the meta data to the url_database
 
-    info = [url, str(url_date), url_title, url_author]
+    info = [url, str(url_date), url_title, url_author, DEFAULT_RANK]
     url_database.loc[(len(url_database.index))] = info
     save_url_database(url_database)
 
@@ -170,7 +165,7 @@ def get_main_page_soup():
 def new_url_database():
 
     # fetches 'url_database.csv' as read and write and returns pandas db
-    url_database = pd.DataFrame(np.nan, index=[], columns=['URL', 'ID', 'Date', 'Title', 'Author'])
+    url_database = pd.DataFrame(np.nan, index=[], columns=['URL', 'ID', 'Date', 'Title', 'Author', 'Rank'])
     url_database = url_database.fillna(0)
     return url_database
 

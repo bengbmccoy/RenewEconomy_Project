@@ -9,7 +9,7 @@ This script will do the following:
 - Take arguemnts from the command line as to what to do
 - Print a list of new urls, based on command line arguemnt --> DONE
 - Print a list of all urls, based on command line argument --> DONE
-- Print a list of unread urls, based on command line argument
+- Print a list of unread urls, based on command line argument --> DONE
 - Print a list of read urls, based on command line argument
 - Print a list of urls ordered by rank, based on command line argument
 - Allow the user to select a file to be read, based on command line argument
@@ -19,6 +19,7 @@ This script will do the following:
 '''
 
 import pandas as pd
+import numpy as np
 import datetime
 import webbrowser
 import argparse
@@ -58,17 +59,25 @@ def main():
         print "all urls collected"
 
     if args.unread:
-        unread_urls = get_list_unread(url_database)
+        unread_urls = get_list_unranked(url_database)
+        # get_list_unranked(url_database)
+        # print unread_urls
+        print 'unranked urls collected'
 
 def open_chrome_tab(url):
     '''
     THis section is todo
     '''
 
-def get_list_unread(url_database):
-    # Returns a list of urls that have ranks
+def get_list_unranked(url_database):
+    # Returns a list of urls that have no rank
 
+    unranked_urls = []
+    for i in range(len(url_database.index)):
+        if url_database.at[i, 'Rank'] != int:
+            unranked_urls.append(url_database.at[i, 'Title'])
 
+    return unranked_urls
 
 def get_list_all(url_database):
     # Reurns a list of all urls stored
