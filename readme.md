@@ -12,7 +12,7 @@ Currently there are 5 items within this online repo:
 - readme.md - This file
 - .gitignore - ignores all .html files
 - url_database.csv - Stores urls (and meta data) that has been saved
-- pages_
+- pages_ - where the HTML files are stored
 - renewecon_scrape.py - script that accesses new articles and saves them as
 html files in the pages_ directory
 
