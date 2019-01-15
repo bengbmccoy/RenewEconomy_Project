@@ -50,18 +50,17 @@ def main():
 
     if args.new:
         new_urls = get_list_new(url_database, 7) # 7 to be used as place holder for arg parse
-        # print new_urls
+        print new_urls
         print "new urls collected"
 
     if args.all:
         all_urls = get_list_all(url_database)
-        # print all_urls
+        print all_urls
         print "all urls collected"
 
     if args.unread:
         unread_urls = get_list_unranked(url_database)
-        # get_list_unranked(url_database)
-        # print unread_urls
+        print unread_urls
         print 'unranked urls collected'
 
 def open_chrome_tab(url):
