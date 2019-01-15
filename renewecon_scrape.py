@@ -35,14 +35,12 @@ import requests
 from bs4 import BeautifulSoup
 import datetime
 
-# DEFAULT_RANK = np.nan
-# The defaul rank is the rank that is stored when the article is newly downloaded and
-# unread,
-
 def main():
 
     global DEFAULT_RANK
     DEFAULT_RANK = np.nan
+    # The defaul rank is the rank that is stored when the article is newly
+    # downloaded and unread
 
     #print 'hello world'
 
