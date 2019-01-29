@@ -6,11 +6,11 @@ This is the second script of the Renewecon project, this script will be the
 so called "reader and ranker".
 
 This script will do the following:
-- Take arguemnts from the command line as to what to do
+- Take arguemnts from the command line as to what to do --> DONE
 - Print a list of new urls, based on command line arguemnt --> DONE
 - Print a list of all urls, based on command line argument --> DONE
 - Print a list of unread urls, based on command line argument --> DONE
-- Print a list of read urls, based on command line argument
+- Print a list of read urls, based on command line argument --> DONE
 - Print a list of urls ordered by rank, based on command line argument
 - Allow the user to select a file to be read, based on command line argument
 - Open the file in a chrome browser
@@ -50,23 +50,42 @@ def main():
 
     if args.new:
         new_urls = get_list_new(url_database, 7) # 7 to be used as place holder for arg parse
-        print new_urls
+        for i in new_urls:
+            print i
         print "new urls collected"
 
     if args.all:
         all_urls = get_list_all(url_database)
-        print all_urls
+        for i in all_urls:
+            print i
         print "all urls collected"
 
     if args.unread:
         unread_urls = get_list_unranked(url_database)
-        print unread_urls
+        for i in unread_urls:
+            print i
         print 'unranked urls collected'
+
+    if args.read:
+        read_urls = get_list_ranked(url_database)
+        for i in read_urls:
+            print i
+        print 'read and ranked urls collected'
 
 def open_chrome_tab(url):
     '''
     THis section is todo
     '''
+
+def get_list_ranked(url_database):
+    # Returns a list of titles that have a rank that is non-numerical
+
+    ranked_urls = []
+    for i in range(len(url_database.index)):
+        if url_database.at[i, 'Rank'] >= 0:
+            ranked_urls.append(url_database.at[i, 'Title'])
+
+    return ranked_urls
 
 def get_list_unranked(url_database):
     # Returns a list of urls that have no rank
@@ -92,8 +111,9 @@ def get_list_new(url_database, days_new):
     current_date = datetime.datetime.now().date()
     # for date in url_database['Date'].tolist():
     for index, row in url_database.iterrows():
-        if abs((current_date - datetime.datetime.strptime(row['Date'], '%Y-%m-%d').date()).days) < days_new:
-            new_urls.append(row['URL'])
+        if abs((current_date - datetime.datetime.strptime(row['Date'],
+        '%Y-%m-%d').date()).days) < days_new:
+            new_urls.append(row['Title'])
 
     return new_urls
 
