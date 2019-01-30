@@ -74,7 +74,7 @@ def main():
 
 def open_chrome_tab(url):
     '''
-    THis section is todo
+    This section is todo
     '''
 
 def get_list_ranked(url_database):
