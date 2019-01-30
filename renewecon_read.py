@@ -74,7 +74,8 @@ def main():
 
     if args.order:
         rank_url_db = get_rank_url_db(url_database)
-
+        print rank_url_db.loc[:, 'Title':'Rank']
+        print 'ranked urls collected and ordered'
 
 def open_chrome_tab(url):
     '''
@@ -85,7 +86,10 @@ def get_rank_url_db(url_database):
     # Returns an ordered pandas database with the titles ordered from highest
     # to lowest ranked. Articles not ranked will not be included.
 
-
+    rank_db = url_database.loc[url_database['Rank'] > 0]
+    rank_db.is_copy = False # Disables the SettingWithCopyWarning
+    rank_db.sort_values('Rank', inplace=True, ascending=False)
+    return rank_db
 
 def get_list_ranked(url_database):
     # Returns a list of titles that have a rank that is non-numerical
