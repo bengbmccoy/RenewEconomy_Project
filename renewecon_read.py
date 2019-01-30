@@ -72,10 +72,20 @@ def main():
             print i
         print 'read and ranked urls collected'
 
+    if args.order:
+        rank_url_db = get_rank_url_db(url_database)
+
+
 def open_chrome_tab(url):
     '''
     This section is todo
     '''
+
+def get_rank_url_db(url_database):
+    # Returns an ordered pandas database with the titles ordered from highest
+    # to lowest ranked. Articles not ranked will not be included.
+
+
 
 def get_list_ranked(url_database):
     # Returns a list of titles that have a rank that is non-numerical
