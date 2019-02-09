@@ -11,7 +11,7 @@ This script will do the following:
 - Print a list of all urls, based on command line argument --> DONE
 - Print a list of unread urls, based on command line argument --> DONE
 - Print a list of read urls, based on command line argument --> DONE
-- Print a list of urls ordered by rank, based on command line argument
+- Print a list of urls ordered by rank, based on command line argument --> DONE
 - Allow the user to select a file to be read, based on command line argument
 - Open the file in a chrome browser
 - Accept or ammend the articles rank
@@ -41,6 +41,9 @@ def main():
                         action='store_true')
     parser.add_argument('-o', '--order',
                         help='displays artciles ordered from high to low rank',
+                        action='store_true')
+    parser.add_argument('-v', '--viewer',
+                        help='allows user to select and view and article',
                         action='store_true')
     args = parser.parse_args()
 
@@ -76,6 +79,11 @@ def main():
         rank_url_db = get_rank_url_db(url_database)
         print rank_url_db.loc[:, 'Title':'Rank']
         print 'ranked urls collected and ordered'
+
+    if args.viewer:
+        
+
+
 
 def open_chrome_tab(url):
     '''
