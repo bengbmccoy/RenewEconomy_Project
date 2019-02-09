@@ -16,6 +16,13 @@ This script will do the following:
 - Open the file in a chrome browser
 - Accept or ammend the articles rank
 
+***TODO***
+- Currently I cannot pass an optional interger argument that would represent
+a site's ID number. Currently you are required to put a 0 as the ID number in
+order to perform no action.
+I would like to be able to leave an argument blank, but if the argument is there
+it will be an interger of the ID of the article to open.
+
 '''
 
 import pandas as pd
@@ -23,6 +30,8 @@ import numpy as np
 import datetime
 import webbrowser
 import argparse
+import webbrowser
+
 
 def main():
 
@@ -45,6 +54,9 @@ def main():
     parser.add_argument('-v', '--viewer',
                         help='allows user to select and view and article',
                         action='store_true')
+    parser.add_argument('id', type=int,
+                        default=False,
+                        help='input the ID of an article to be viewed')
     args = parser.parse_args()
 
     url_database = fetch_url_database()
@@ -80,15 +92,20 @@ def main():
         print rank_url_db.loc[:, 'Title':'Rank']
         print 'ranked urls collected and ordered'
 
-    if args.viewer:
-        
+    # if args.viewer:
+    if args.id > 0:
+        id_num = str(args.id)
+        for i in range(len(url_database.index)):
+            if str(url_database.at[i,'Title'][-5:]) == id_num:
+                open_chrome_tab(url_database.at[i, 'URL'])
 
 
 
 def open_chrome_tab(url):
     '''
-    This section is todo
+    This function opens a chrome tab and goes to the url provided
     '''
+    webbrowser.open_new_tab(url)
 
 def get_rank_url_db(url_database):
     # Returns an ordered pandas database with the titles ordered from highest
