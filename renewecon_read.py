@@ -15,6 +15,7 @@ This script will do the following:
 - Allow the user to select a file to be read, based on command line
     argument --> DONE
 - Open the file in a chrome browser --> DONE
+- Allow the user to rank an article (no idea how to do this!)
 - Accept or ammend the articles rank
 
 ***TODO***
@@ -23,6 +24,7 @@ a site's ID number. Currently you are required to put a 0 as the ID number in
 order to perform no action.
 I would like to be able to leave an argument blank, but if the argument is there
 it will be an interger of the ID of the article to open.
+I also need some method of allowing a user of the script to rank an artice!
 
 '''
 
