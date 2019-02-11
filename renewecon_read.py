@@ -12,8 +12,9 @@ This script will do the following:
 - Print a list of unread urls, based on command line argument --> DONE
 - Print a list of read urls, based on command line argument --> DONE
 - Print a list of urls ordered by rank, based on command line argument --> DONE
-- Allow the user to select a file to be read, based on command line argument
-- Open the file in a chrome browser
+- Allow the user to select a file to be read, based on command line
+    argument --> DONE
+- Open the file in a chrome browser --> DONE
 - Accept or ammend the articles rank
 
 ***TODO***
@@ -56,7 +57,7 @@ def main():
                         action='store_true')
     parser.add_argument('id', type=int,
                         default=False,
-                        help='input the ID of an article to be viewed')
+                        help='input the ID of an article to be viewed, put 0 to not open any new tabs')
     args = parser.parse_args()
 
     url_database = fetch_url_database()
@@ -97,14 +98,13 @@ def main():
         id_num = str(args.id)
         for i in range(len(url_database.index)):
             if str(url_database.at[i,'Title'][-5:]) == id_num:
-                open_chrome_tab(url_database.at[i, 'URL'])
+                # open_chrome_tab(url_database.at[i, 'URL'])
+                open_chrome_tab(url_database.at[i, 'Title'])
 
 
 
 def open_chrome_tab(url):
-    '''
-    This function opens a chrome tab and goes to the url provided
-    '''
+    url = 'file:///C:/Users/benja/_repo_home/pages_/' + url + '.html'
     webbrowser.open_new_tab(url)
 
 def get_rank_url_db(url_database):
