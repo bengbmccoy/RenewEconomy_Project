@@ -15,8 +15,6 @@ This script will do the following:
 - Allow the user to select a file to be read, based on command line
     argument --> DONE
 - Open the file in a chrome browser --> DONE
-- Allow the user to rank an article (no idea how to do this!)
-- Accept or ammend the articles rank
 
 ***TODO***
 - Currently I cannot pass an optional interger argument that would represent
@@ -24,7 +22,6 @@ a site's ID number. Currently you are required to put a 0 as the ID number in
 order to perform no action.
 I would like to be able to leave an argument blank, but if the argument is there
 it will be an interger of the ID of the article to open.
-I also need some method of allowing a user of the script to rank an artice!
 
 '''
 
@@ -33,7 +30,6 @@ import numpy as np
 import datetime
 import webbrowser
 import argparse
-import webbrowser
 
 
 def main():
@@ -159,7 +155,6 @@ def get_list_new(url_database, days_new):
     return new_urls
 
 def fetch_url_database():
-
     # fetches 'url_database.csv' as read and write and returns pandas db
     url_database = pd.read_csv('url_database.csv')
     return url_database

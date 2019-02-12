@@ -23,3 +23,7 @@ Regards,
 Ben
 
 LinkedIn: [Ben McCoy](https://www.linkedin.com/in/benjamin-mccoy-68005b125/)
+
+**Decision Log:**
+
+20190212 - Decided to perform ranking of articles through a seperate script called renewecon_rank. This will be easier than collecting user input in the renewecon_read script.
