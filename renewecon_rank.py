@@ -38,15 +38,27 @@ def main():
         print err_message
         sys.exit(1)
 
+    # updates the url_database.csv with the rank argument
     for i in range(len(url_database.index)):
         if str(url_database.at[i,'Title'][-5:]) == str(args.id):
             url_database.at[i, 'Rank'] = args.rank
             print url_database.at[i,'Title'] + ' rank updated to ' + str(args.rank)
 
+    save_url_database(url_database)
     # print url_database
+    print 'url_database saved'
+
+def save_url_database(url_database):
+    # saves the pandas database as a csv in the same directory
+    url_database.to_csv("url_database.csv", encoding='utf-8', index=False)
 
 def run_checks(argid, argrank, url_database):
-
+    # Takes the commane line arguments and returns a check boolean and an error
+    # message as a string.
+    # Thins function performs some basic checks on the command line variables
+    # to ensure that they make sens and will keep the data set clean.
+    # If an error is detected the script will desplay an error message and then
+    # exit and stop running.
 
     err_message = ''
     check = True

@@ -91,7 +91,6 @@ def main():
         print rank_url_db.loc[:, 'Title':'Rank']
         print 'ranked urls collected and ordered'
 
-    # if args.viewer:
     if args.id > 0:
         id_num = str(args.id)
         for i in range(len(url_database.index)):
@@ -99,9 +98,8 @@ def main():
                 # open_chrome_tab(url_database.at[i, 'URL'])
                 open_chrome_tab(url_database.at[i, 'Title'])
 
-
-
 def open_chrome_tab(url):
+    # Opens a locally saved html in a chrome tab
     url = 'file:///C:/Users/benja/_repo_home/pages_/' + url + '.html'
     webbrowser.open_new_tab(url)
 
